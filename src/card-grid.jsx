@@ -1,9 +1,26 @@
 import { useState, useEffect } from "react";
 import Card from "./card";
 
-export default function CardGrid() {
+function shuffleArray(array) {
+  const arrayCopy = [...array];
+  for (let i = 0; i < arrayCopy.length - 1; i++) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [arrayCopy[i], arrayCopy[j]] = [arrayCopy[j], arrayCopy[i]];
+  }
+  return arrayCopy;
+}
+
+export default function CardGrid({ score, highScore, setScore, setHighScore }) {
   const [cardNumbers, setCardNumbers] = useState(10);
   const [pokemonList, setPokemonList] = useState([]);
+
+  function resetCards() {
+    const shuffledPokemonArray = shuffleArray(pokemonList);
+    for (let i = 0; i < shuffledPokemonArray.length - 1; i++) {
+      shuffledPokemonArray[i].clicked = false;
+    }
+    setPokemonList(shuffledPokemonArray);
+  }
   useEffect(() => {
     async function fetchPokemonList() {
       const response = await fetch(
@@ -14,13 +31,47 @@ export default function CardGrid() {
         const pokemonResponse = await fetch(pokemon.url);
         const pokemonResult = await pokemonResponse.json();
         const pokemonSprite = pokemonResult.sprites.front_default;
-        return { name: pokemon.name, sprite: pokemonSprite };
+        return { name: pokemon.name, sprite: pokemonSprite, clicked: false };
       });
       Promise.all(arrayOfPromises).then((results) => {
-        setPokemonList(results);
+        const shuffledPokemonArray = shuffleArray(results);
+        setPokemonList(shuffledPokemonArray);
       });
     }
     fetchPokemonList();
   }, [cardNumbers]);
-  console.log(pokemonList);
+
+  const handleClick = (pokemonName) => {
+    return () => {
+      const shuffledPokemonArray = shuffleArray(pokemonList);
+      const found = shuffledPokemonArray.find(
+        (pokemon) => pokemon.name === pokemonName
+      );
+      if (found.clicked === false) {
+        found.clicked = true;
+        setScore((score) => score + 1);
+      } else if (found.clicked === true) {
+        if (score > highScore) {
+          setHighScore(score);
+        }
+        setScore(0);
+        resetCards();
+      }
+      setPokemonList(shuffledPokemonArray);
+    };
+  };
+
+  const pokemonCards = [];
+
+  for (let i = 0; i < pokemonList.length - 1; i++) {
+    pokemonCards.push(
+      <Card
+        key={pokemonList[i].name}
+        name={pokemonList[i].name}
+        src={pokemonList[i].sprite}
+        handleClick={handleClick(pokemonList[i].name)}
+      />
+    );
+  }
+  return <div>{pokemonCards}</div>;
 }
