@@ -1,8 +1,7 @@
 .pokemon-card{
-    width: 150px;
-    height: 180px;
     border-radius: 10px;
-    background-color: rgba(71, 71, 245, 0.863);
+    background-color: rgba(184, 49, 49, 0.678);
+    box-shadow: 0 0 15px -7px black;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -18,10 +17,11 @@
     background-color: rgba(18, 18, 85, 0.863);
     color: white;
     width: 80%;
-    height: 20%;
+    padding: 8px;
     border-radius: 10px;
     display: flex;
     justify-content: center;
     align-items: center;
     font-size: 18px;
+    margin-bottom: 10px;
 }

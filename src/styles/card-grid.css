@@ -1,0 +1,10 @@
+.card-grid{
+    min-width: 100%;
+    padding: 50px;
+    background-color: rgba(117, 23, 23, 0.315);
+    border-radius: 20px;
+    box-shadow: 0 0 10px -7px black;
+    display: grid;
+    gap: 10px;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+}

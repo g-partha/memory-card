@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
 import Card from "./card";
+import './styles/card-grid.css';
 
 function shuffleArray(array) {
   const arrayCopy = [...array];
-  for (let i = 0; i < arrayCopy.length - 1; i++) {
+  for (let i = 0; i < arrayCopy.length; i++) {
     const j = Math.floor(Math.random() * (i + 1));
     [arrayCopy[i], arrayCopy[j]] = [arrayCopy[j], arrayCopy[i]];
   }
@@ -11,12 +12,16 @@ function shuffleArray(array) {
 }
 
 export default function CardGrid({ score, highScore, setScore, setHighScore }) {
-  const [cardNumbers, setCardNumbers] = useState(10);
+  const cardNumbers = 12;
   const [pokemonList, setPokemonList] = useState([]);
 
   function resetCards() {
+    if (score > highScore) {
+      setHighScore(score);
+    }
+    setScore(0);
     const shuffledPokemonArray = shuffleArray(pokemonList);
-    for (let i = 0; i < shuffledPokemonArray.length - 1; i++) {
+    for (let i = 0; i < shuffledPokemonArray.length; i++) {
       shuffledPokemonArray[i].clicked = false;
     }
     setPokemonList(shuffledPokemonArray);
@@ -51,10 +56,6 @@ export default function CardGrid({ score, highScore, setScore, setHighScore }) {
         found.clicked = true;
         setScore((score) => score + 1);
       } else if (found.clicked === true) {
-        if (score > highScore) {
-          setHighScore(score);
-        }
-        setScore(0);
         resetCards();
       }
       setPokemonList(shuffledPokemonArray);
@@ -63,7 +64,7 @@ export default function CardGrid({ score, highScore, setScore, setHighScore }) {
 
   const pokemonCards = [];
 
-  for (let i = 0; i < pokemonList.length - 1; i++) {
+  for (let i = 0; i < pokemonList.length; i++) {
     pokemonCards.push(
       <Card
         key={pokemonList[i].name}
@@ -73,5 +74,5 @@ export default function CardGrid({ score, highScore, setScore, setHighScore }) {
       />
     );
   }
-  return <div>{pokemonCards}</div>;
+  return <div className="card-grid">{pokemonCards}</div>;
 }

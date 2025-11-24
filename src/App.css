@@ -1,5 +1,53 @@
 #root {
+  padding: 50px;
   min-width: 100vh;
   min-height: 100vh;
   background-color: rgba(250, 235, 215, 0.781);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  justify-content: start;
+  align-items: center;
+}
+.header {
+  display: flex;
+  gap: 20px;
+  align-items: center;
+}
+
+.header h1 {
+  background-color: rgba(18, 18, 85, 0.863);
+  color: rgb(255, 255, 255);
+  font-size: 30px;
+  min-height: 70px;
+  border-radius: 15px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 0 50px;
+}
+
+.score-container {
+  display: flex;
+  gap: 20px;
+}
+
+.score-container div {
+  display: flex;
+  background-color: rgba(18, 18, 85, 0.863);
+  border-radius: 15px;
+  color: white;
+  min-width: 200px;
+  min-height: 70px;
+  font-size: 20px;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}
+.score-container span {
+  color: rgb(20, 233, 73);
+  font-size: 25px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
